@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday Akshitaa!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      min-height: 100%;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffd1dc, #ff85a2);
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    /* Popup container */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px 20px 40px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 94, 153, 0.5);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      z-index: 10;
+    }
+
+    /* Show the active popup */
+    .popup.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .popup h1 {
+      font-family: "Pacifico", cursive;
+      color: #ff5e99;
+      font-size: 2.2em;
+      margin-bottom: 15px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .popup p {
+      font-size: 1.1em;
+      color: #444;
+      font-family: "Poppins", sans-serif;
+      margin-bottom: 20px;
+      animation: fadeIn 1.2s ease-in;
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .popup img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 15px;
+      margin: 10px auto;
+      display: block;
+      animation: fadeIn 1.5s ease-in;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 20;
+    }
+
+    .controls button,
+    .music-controls button {
+      background: #ff5e99;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 1em;
+      box-shadow: 0 4px 8px rgba(255, 94, 153, 0.4);
+      transition: background 0.3s ease;
+    }
+
+    .controls button:hover,
+    .music-controls button:hover {
+      background: #e04e84;
+    }
+
+    .music-controls {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 20;
+    }
+
+    .music-controls button {
+      background: white;
+      color: #ff5e99;
+      border: 1px solid #ff5e99;
+      padding: 6px 14px;
+      font-weight: 600;
+      font-size: 0.9em;
+      box-shadow: none;
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Scrollbar for popup text if overflow */
+    .popup p::-webkit-scrollbar {
+      width: 6px;
+    }
+    .popup p::-webkit-scrollbar-thumb {
+      background-color: #ff5e99;
+      border-radius: 3px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .popup {
+        padding: 20px 15px 30px;
+        max-width: 90%;
+      }
+      .popup h1 {
+        font-size: 1.8em;
+      }
+      .popup p {
+        font-size: 1em;
+        max-height: 250px;
+      }
+      .controls button,
+      .music-controls button {
+        padding: 8px 14px;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" loop>
+    <source src="Bruno Mars - Count On Me.mp3" type="audio/mpeg" />
+    Your browser does not support audio.
+  </audio>
+
+  <div class="music-controls">
+    <button onclick="playMusic()">▶️ Play</button>
+    <button onclick="pauseMusic()">⏸️ Pause</button>
+  </div>
+
+  <canvas id="fireworks"></canvas>
+
+  <!-- Popups -->
+  <div class="popup active" id="popup0">
+    <h1>🎉 Happy Birthday Akshitaa!</h1>
+    <p>
+      Dear Akshitaa, you’ve filled my life with laughter, joy, and so many beautiful memories! You’re not just a bestie — you’re my forever partner-in-crime 💖
+    </p>
+  </div>
+
+  <div class="popup" id="popup1">
+    <h1>💕 A Special Message</h1>
+    <p>
+      Heyy Akshitaa💕 may your day be the happiest! Tu bas thoda kam naraz raha kar, mujhse toh mat hi raha kar.<br /><br />
+      Warna rwt se ladne ke baad rone kiske paas aayegi tu? 😭<br />
+      Tu soft-hearted hai, jo ki achi cheez hai — par tu bahar se nahi soft hai 😤.<br />
+      I will make you strong from the outside... par NAH! Tu khana nahi khati gadhi 😅<br />
+      Kaise strong hogi? Bahar ka khana rehti hai, na exercise karti hai...<br />
+      Karaa kr pagli! 😂<br /><br />
+      You are my closest bestie... stay together till the end of our life 💞<br /><br />
+      Enjoy your day 💖🎉<br />
+      Once again, Happy Birthday &lt;3
+    </p>
+  </div>
+
+  <div class="popup" id="popup2">
+    <h1>🎂 Our Memory!</h1>
+    <img src="IMG_5864.JPG" alt="You & Me" />
+    <p>
+      Wishing you the happiest birthday ever, Akshitaa! You're truly special. 🥰
+    </p>
+  </div>
+
+  <div class="controls">
+    <button onclick="prevPopup()">⬅️ Previous</button>
+    <button onclick="nextPopup()">Next ➡️</button>
+  </div>
+
+  <script>
+    const bgMusic = document.getElementById("bgMusic");
+    const popups = document.querySelectorAll(".popup");
+    let current = 0;
+
+    function showPopup(index) {
+      popups.forEach((popup, i) => {
+        popup.classList.toggle("active", i === index);
+      });
+    }
+
+    function nextPopup() {
+      if (current < popups.length - 1) {
+        current++;
+        showPopup(current);
+      }
+    }
+
+    function prevPopup() {
+      if (current > 0) {
+        current--;
+        showPopup(current);
+      }
+    }
+
+    function playMusic() {
+      bgMusic.play();
+    }
+
+    function pauseMusic() {
+      bgMusic.pause();
+    }
+
+    // Fireworks canvas
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    let particles = [];
+    function createFirework() {
+      for (let i = 0; i < 100; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          dx: (Math.random() - 0.5) * 6,
+          dy: (Math.random() - 0.5) * 6,
+          radius: Math.random() * 3 + 1,
+          life: 100,
+          color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        p.life--;
+        if (p.life <= 0) particles.splice(i, 1);
+      });
+      requestAnimationFrame(animate);
+    }
+    setInterval(createFirework, 2000);
+    animate();
+  </script>
+</body>
+</html>
