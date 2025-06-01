@@ -15,25 +15,27 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 20px;
       overflow-x: hidden;
-      box-sizing: border-box;
+      padding: 20px;
     }
+
     h1 {
       font-family: 'Pacifico', cursive;
       color: #d63384;
-      font-size: 2.2em;
+      font-size: 2.5em;
       margin-bottom: 20px;
       text-align: center;
-      animation: fadeIn 1s ease-in-out;
+      animation: fadeIn 1s ease;
     }
+
     .button-group {
       display: flex;
       gap: 15px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 30px;
+      margin-top: 10px;
     }
+
     button {
       padding: 12px 20px;
       border: none;
@@ -42,39 +44,39 @@
       border-radius: 10px;
       cursor: pointer;
       font-size: 1em;
-      opacity: 0;
-      animation: popIn 0.8s ease forwards;
-      type: button;
+      transition: background 0.3s ease;
     }
-    .button-group button:nth-child(1) { animation-delay: 0.5s; }
-    .button-group button:nth-child(2) { animation-delay: 0.7s; }
+
+    button:hover {
+      background-color: #c2186a;
+    }
 
     .modal {
       position: fixed;
       top: 50%;
       left: 50%;
-      width: 90%;
-      max-width: 480px;
+      transform: translate(-50%, -50%) scale(0);
       background: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 20px;
-      box-sizing: border-box;
+      width: 90%;
+      max-width: 500px;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      transform: translate(-50%, -50%) scale(0);
-      transition: transform 0.3s ease-in-out;
       z-index: 1000;
+      transition: transform 0.3s ease-in-out;
     }
+
     .modal.active {
       transform: translate(-50%, -50%) scale(1);
-      animation: popIn 0.4s ease forwards;
     }
+
     .modal img {
       max-width: 100%;
-      height: auto;
       border-radius: 15px;
       margin-top: 10px;
     }
+
     .overlay {
       position: fixed;
       top: 0;
@@ -87,16 +89,18 @@
       transition: opacity 0.3s ease;
       z-index: 999;
     }
+
     .overlay.active {
       opacity: 1;
       pointer-events: all;
     }
+
     .music-controls {
-      position: fixed;
+      position: absolute;
       top: 10px;
       right: 10px;
-      z-index: 1100;
     }
+
     .music-controls button {
       background: white;
       color: #d63384;
@@ -105,55 +109,35 @@
       margin-left: 5px;
       padding: 5px 10px;
       border-radius: 5px;
-      type: button;
-    }
-    .close-btn {
-      background: #d63384;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      margin-top: 20px;
       cursor: pointer;
-      type: button;
     }
-    p {
-      font-size: 0.95em;
-      line-height: 1.5em;
-      text-align: left;
+
+    .close-btn {
+      margin-top: 20px;
+      background: #ffccd5;
+      color: #d63384;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.5); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.8em;
-      }
-      button {
-        font-size: 0.95em;
-        padding: 10px 18px;
-      }
-      .modal {
-        padding: 15px;
-      }
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
 
+  <!-- Background music -->
   <audio id="bgMusic" loop>
     <source src="Bruno Mars - Count On Me.mp3" type="audio/mpeg">
     Your browser does not support audio.
   </audio>
 
+  <!-- Music control buttons -->
   <div class="music-controls">
     <button onclick="document.getElementById('bgMusic').play()">▶️ Play</button>
     <button onclick="document.getElementById('bgMusic').pause()">⏸️ Pause</button>
@@ -161,16 +145,19 @@
 
   <h1>🎉 Happy Birthday Akshitaa!</h1>
 
+  <!-- Buttons to open modals -->
   <div class="button-group">
     <button onclick="openModal('messageModal')">💌 Message</button>
     <button onclick="openModal('photoModal')">📸 Memory</button>
   </div>
 
+  <!-- Background overlay -->
   <div id="overlay" class="overlay" onclick="closeModal()"></div>
 
+  <!-- Message Modal -->
   <div id="messageModal" class="modal">
     <h2>💖 A Special Message</h2>
-    <p>
+    <p style="text-align: left;">
       Heyy Akshitaa💕 may your day be the happiest! Tu bas thoda kam naraz raha kar mujhse, toh mat hi raha kar.<br><br>
       Warna raat se ladne ke baad rone kiske paas aayegi tu? 😭<br>
       Tu soft-hearted hai, jo ki achi cheez hai — par tu bahar se nahi soft hai 😤.<br>
@@ -184,6 +171,7 @@
     <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
 
+  <!-- Photo Modal -->
   <div id="photoModal" class="modal">
     <h2>🎂 Our Memory!</h2>
     <img src="IMG_5864.JPG" alt="Birthday Memory" />
@@ -191,30 +179,17 @@
     <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
     function openModal(id) {
-      document.body.style.overflow = 'hidden'; // Prevent page scroll
       document.getElementById(id).classList.add('active');
       document.getElementById('overlay').classList.add('active');
     }
 
     function closeModal() {
-      document.body.style.overflow = ''; // Restore scroll
       document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
       document.getElementById('overlay').classList.remove('active');
     }
-
-    // Confetti on load
-    window.onload = () => {
-      setTimeout(() => {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }, 500);
-    };
   </script>
+
 </body>
 </html>
