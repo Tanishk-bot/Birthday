@@ -6,26 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --main-color: #d63384;
+      --bg-color: #ffe0f0;
+    }
+
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background-color: #ffe0f0;
+      background-color: var(--bg-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow-x: hidden;
       padding: 20px;
+      overflow-x: hidden;
+      animation: fadeIn 1.5s ease-in;
     }
 
     h1 {
       font-family: 'Pacifico', cursive;
-      color: #d63384;
+      color: var(--main-color);
       font-size: 2.5em;
-      margin-bottom: 20px;
+      margin: 10px 0;
       text-align: center;
-      animation: fadeIn 1s ease;
+      animation: slideDown 1s ease-out;
     }
 
     .button-group {
@@ -33,29 +39,31 @@
       gap: 15px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 15px;
+      animation: fadeInUp 1.2s ease-out;
     }
 
     button {
       padding: 12px 20px;
       border: none;
-      background-color: #d63384;
+      background-color: var(--main-color);
       color: white;
       border-radius: 10px;
       cursor: pointer;
       font-size: 1em;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     button:hover {
       background-color: #c2186a;
+      transform: scale(1.05);
     }
 
     .modal {
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0);
+      transform: translate(-50%, -50%) scale(0.8);
       background: white;
       padding: 25px;
       border-radius: 20px;
@@ -64,17 +72,22 @@
       text-align: center;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       z-index: 1000;
-      transition: transform 0.3s ease-in-out;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
     }
 
     .modal.active {
+      opacity: 1;
       transform: translate(-50%, -50%) scale(1);
+      animation: zoomIn 0.5s ease;
     }
 
     .modal img {
       max-width: 100%;
       border-radius: 15px;
       margin-top: 10px;
+      height: auto;
+      animation: fadeIn 1s ease;
     }
 
     .overlay {
@@ -96,48 +109,95 @@
     }
 
     .music-controls {
-      position: absolute;
+      position: fixed;
       top: 10px;
       right: 10px;
+      z-index: 1100;
+      animation: fadeIn 2s ease;
     }
 
     .music-controls button {
       background: white;
-      color: #d63384;
+      color: var(--main-color);
       font-weight: bold;
       border: 1px solid #ccc;
       margin-left: 5px;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 5px;
-      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.2s ease;
+    }
+
+    .music-controls button:hover {
+      background: #ffe0f0;
+      transform: scale(1.05);
     }
 
     .close-btn {
       margin-top: 20px;
       background: #ffccd5;
-      color: #d63384;
+      color: var(--main-color);
       border: none;
       padding: 10px 16px;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
+    .close-btn:hover {
+      background: #ffc1cc;
+    }
+
+    /* Animations */
     @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {opacity: 0; transform: translateY(-30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes fadeInUp {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes zoomIn {
+      from {opacity: 0; transform: scale(0.7);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .modal {
+        padding: 15px;
+      }
+
+      button, .music-controls button {
+        font-size: 0.9em;
+        padding: 10px 15px;
+      }
+
+      .close-btn {
+        font-size: 0.9em;
+        padding: 8px 12px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background music -->
   <audio id="bgMusic" loop>
     <source src="Bruno Mars - Count On Me.mp3" type="audio/mpeg">
     Your browser does not support audio.
   </audio>
 
-  <!-- Music control buttons -->
   <div class="music-controls">
     <button onclick="document.getElementById('bgMusic').play()">▶️ Play</button>
     <button onclick="document.getElementById('bgMusic').pause()">⏸️ Pause</button>
@@ -145,16 +205,13 @@
 
   <h1>🎉 Happy Birthday Akshitaa!</h1>
 
-  <!-- Buttons to open modals -->
   <div class="button-group">
     <button onclick="openModal('messageModal')">💌 Message</button>
     <button onclick="openModal('photoModal')">📸 Memory</button>
   </div>
 
-  <!-- Background overlay -->
   <div id="overlay" class="overlay" onclick="closeModal()"></div>
 
-  <!-- Message Modal -->
   <div id="messageModal" class="modal">
     <h2>💖 A Special Message</h2>
     <p style="text-align: left;">
@@ -171,7 +228,6 @@
     <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
 
-  <!-- Photo Modal -->
   <div id="photoModal" class="modal">
     <h2>🎂 Our Memory!</h2>
     <img src="IMG_5864.JPG" alt="Birthday Memory" />
@@ -190,6 +246,5 @@
       document.getElementById('overlay').classList.remove('active');
     }
   </script>
-
 </body>
 </html>
