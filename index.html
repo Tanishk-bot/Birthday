@@ -22,7 +22,6 @@
       min-height: 100vh;
       padding: 20px;
       overflow-x: hidden;
-      animation: fadeIn 1.5s ease-in;
     }
 
     h1 {
@@ -31,7 +30,7 @@
       font-size: 2.5em;
       margin: 10px 0;
       text-align: center;
-      animation: slideDown 1s ease-out;
+      animation: fadeIn 1s ease;
     }
 
     .button-group {
@@ -40,7 +39,6 @@
       flex-wrap: wrap;
       justify-content: center;
       margin-top: 15px;
-      animation: fadeInUp 1.2s ease-out;
     }
 
     button {
@@ -51,7 +49,7 @@
       border-radius: 10px;
       cursor: pointer;
       font-size: 1em;
-      transition: all 0.3s ease;
+      transition: background 0.3s ease, transform 0.3s ease;
     }
 
     button:hover {
@@ -73,13 +71,14 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       z-index: 1000;
       opacity: 0;
+      pointer-events: none;
       transition: all 0.3s ease-in-out;
     }
 
     .modal.active {
-      opacity: 1;
       transform: translate(-50%, -50%) scale(1);
-      animation: zoomIn 0.5s ease;
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .modal img {
@@ -87,7 +86,6 @@
       border-radius: 15px;
       margin-top: 10px;
       height: auto;
-      animation: fadeIn 1s ease;
     }
 
     .overlay {
@@ -113,7 +111,6 @@
       top: 10px;
       right: 10px;
       z-index: 1100;
-      animation: fadeIn 2s ease;
     }
 
     .music-controls button {
@@ -125,12 +122,6 @@
       padding: 6px 12px;
       border-radius: 5px;
       font-size: 0.9em;
-      transition: all 0.2s ease;
-    }
-
-    .music-controls button:hover {
-      background: #ffe0f0;
-      transform: scale(1.05);
     }
 
     .close-btn {
@@ -146,28 +137,12 @@
     }
 
     .close-btn:hover {
-      background: #ffc1cc;
+      background: #f8a1b2;
     }
 
-    /* Animations */
     @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-    @keyframes slideDown {
-      from {opacity: 0; transform: translateY(-30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes fadeInUp {
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes zoomIn {
-      from {opacity: 0; transform: scale(0.7);}
-      to {opacity: 1; transform: scale(1);}
     }
 
     @media (max-width: 500px) {
@@ -193,30 +168,36 @@
 </head>
 <body>
 
+  <!-- Background Music -->
   <audio id="bgMusic" loop>
     <source src="Bruno Mars - Count On Me.mp3" type="audio/mpeg">
     Your browser does not support audio.
   </audio>
 
+  <!-- Music Controls -->
   <div class="music-controls">
     <button onclick="document.getElementById('bgMusic').play()">▶️ Play</button>
     <button onclick="document.getElementById('bgMusic').pause()">⏸️ Pause</button>
   </div>
 
+  <!-- Greeting -->
   <h1>🎉 Happy Birthday Akshitaa!</h1>
 
+  <!-- Buttons -->
   <div class="button-group">
     <button onclick="openModal('messageModal')">💌 Message</button>
     <button onclick="openModal('photoModal')">📸 Memory</button>
   </div>
 
+  <!-- Overlay -->
   <div id="overlay" class="overlay" onclick="closeModal()"></div>
 
+  <!-- Message Modal -->
   <div id="messageModal" class="modal">
     <h2>💖 A Special Message</h2>
     <p style="text-align: left;">
-      Heyy Akshitaa💕 may your day be the happiest! Tu bas thoda kam naraz raha kar mujhse, toh mat hi raha kar.<br><br>
-      Warna raat se ladne ke baad rone kiske paas aayegi tu? 😭<br>
+      Heyy Akshitaa💕 may your day be the happiest! Tu bas thoda kam naraz raha kar, mujhse toh mat hi raha kar.<br><br>
+      Warna rwt se ladne ke baad rone kiske paas aayegi tu? 😭<br>
       Tu soft-hearted hai, jo ki achi cheez hai — par tu bahar se nahi soft hai 😤.<br>
       I will make you strong from the outside... par NAH! Tu khana nahi khati gadhi 😅<br>
       Kaise strong hogi? Bahar ka khana rehti hai, na exercise karti hai...<br>
@@ -228,6 +209,7 @@
     <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
 
+  <!-- Photo Modal -->
   <div id="photoModal" class="modal">
     <h2>🎂 Our Memory!</h2>
     <img src="IMG_5864.JPG" alt="Birthday Memory" />
@@ -235,6 +217,7 @@
     <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
 
+  <!-- JavaScript -->
   <script>
     function openModal(id) {
       document.getElementById(id).classList.add('active');
